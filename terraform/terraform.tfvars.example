@@ -1,0 +1,31 @@
+# Copy to terraform.tfvars and fill in.
+# NEVER commit terraform.tfvars (already gitignored).
+#
+# NOTE: Secret VALUES (LD SDK key, OAuth password, OAuth secret, JWT key)
+# are NOT in this file. They are written directly to Key Vault by an
+# operator using bootstrap-secrets.ps1. Terraform never reads them.
+
+# --- Location must match the existing resource group's region ---
+location = "eastus"
+
+# --- Existing resource names (defaults shown; override only if different) ---
+# resource_group_name            = "engage-launchdarkly-prod"
+# key_vault_name                 = "kv-ld-sfsc"
+# container_registry_name        = "acrsfscldbridge"
+# managed_identity_name          = "ld-bridge-mi"
+# container_app_environment_name = "env-launchdarkly-prod"
+# container_app_name             = "bridge-sdk-host"
+# container_image_repository     = "launchdarkly-sf-bridge:latest"
+
+# REQUIRED — the existing Log Analytics workspace backing env-launchdarkly-prod
+log_analytics_workspace_name = "REPLACE-ME"
+
+# --- Bridge configuration (non-secret) ---
+salesforce_url = "https://test.salesforce.com/services/apexrest/"   # adjust for prod
+oauth_username = "integration-user@example.com"
+oauth_uri      = "https://test.salesforce.com/services/oauth2/token" # sandbox; omit for prod
+
+# --- Auth mode ---
+# "password" → bridge reads OAUTH_PASSWORD + OAUTH_SECRET from KV
+# "jwt"      → bridge reads OAUTH_JWT_KEY from KV
+auth_mode = "password"
